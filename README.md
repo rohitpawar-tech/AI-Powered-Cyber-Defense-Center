@@ -6,6 +6,14 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
 ![NEXUS Dashboard](https://img.shields.io/badge/Status-Operational-green) ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 
 **Output Example**
+### Phases
+
+1. Detection
+2. Analysis
+3. Containment
+4. Eradication
+5. Recovery
+6. Lessons Learned
 
 
 ## 🚨 Incident Command Center
