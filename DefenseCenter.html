@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS | AI Cyber Threat Monitoring System</title>
+    
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- ANIMATIONS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #000000;
+            --panel-bg: rgba(10, 20, 30, 0.75);
+            --primary-green: #00ff41;
+            --primary-cyan: #00f3ff;
+            --alert-red: #ff2a2a;
+            --warning-orange: #ffae00;
+            --text-main: #e0e0e0;
+            --glass-border: 1px solid rgba(0, 255, 65, 0.2);
+            --neon-shadow-green: 0 0 10px rgba(0, 255, 65, 0.5);
+            --neon-shadow-cyan: 0 0 10px rgba(0, 243, 255, 0.5);
+            --font-head: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+            --font-tech: 'Audiowide', cursive;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-green) var(--bg-color);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.95)),
+                url('https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        /* UTILITIES */
+        .glass-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: var(--glass-border);
+            border-radius: 4px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-green), transparent);
+            opacity: 0.5;
+        }
+
+        .neon-text-green { color: var(--primary-green); text-shadow: var(--neon-shadow-green); }
+        .neon-text-cyan { color: var(--primary-cyan); text-shadow: var(--neon-shadow-cyan); }
+        .neon-text-red { color: var(--alert-red); text-shadow: 0 0 10px rgba(255, 42, 42, 0.7); }
+
+        .btn-cyber {
+            background: transparent;
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            padding: 10px 20px;
+            font-family: var(--font-head);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-cyber:hover {
+            background: var(--primary-green);
+            color: #000;
+            box-shadow: var(--neon-shadow-green);
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.3;
+        }
+
+        /* LOADER */
+        #loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: var(--font-head);
+        }
+
+        #matrix-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0.3;
+        }
+
+        .boot-sequence {
+            z-index: 10001;
+            text-align: left;
+            width: 600px;
+            max-width: 90%;
+            font-size: 14px;
+            color: var(--primary-green);
+            margin-top: 20px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 4px;
+            background: #111;
+            margin-top: 20px;
+            position: relative;
+            z-index: 10001;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-green);
+            width: 0%;
+            box-shadow: var(--neon-shadow-green);
+            transition: width 0.1s;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            z-index: 5000;
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid var(--primary-green);
+        }
+
+        .logo {
+            font-family: var(--font-tech);
+            font-size: 24px;
+            color: var(--primary-cyan);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .clock {
+            font-family: var(--font-head);
+            color: var(--text-main);
+            font-size: 18px;
+            border: 1px solid var(--primary-green);
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--warning-orange);
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px; right: -5px;
+            background: var(--alert-red);
+            color: white;
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 50%;
+        }
+
+        /* MAIN GRID */
+        main {
+            padding: 90px 20px 20px 20px;
+            max-width: 1920px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: auto auto auto; 
+            gap: 20px;
+            min-height: 100vh;
+        }
+
+        /* SECTIONS */
+        .col-span-12 { grid-column: span 12; }
+        .col-span-8 { grid-column: span 8; }
+        .col-span-6 { grid-column: span 6; }
+        .col-span-4 { grid-column: span 4; }
+        .col-span-3 { grid-column: span 3; }
+        
+        @media (max-width: 1200px) {
+            .col-span-8, .col-span-6, .col-span-4, .col-span-3 { grid-column: span 12; }
+        }
+
+        /* HEADER / HERO */
+        .hero-header {
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hero-title h1 {
+            font-family: var(--font-head);
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .hero-title p {
+            color: var(--primary-cyan);
+            font-size: 18px;
+            margin-top: 5px;
+        }
+
+        /* STATS CARDS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 120px;
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            color: #888;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-family: var(--font-head);
+            font-size: 32px;
+            margin-top: 10px;
+        }
+
+        .stat-trend {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .trend-up { color: var(--alert-red); }
+        .trend-down { color: var(--primary-green); }
+
+        /* CHARTS */
+        .chart-container {
+            padding: 20px;
+            height: 350px;
+            position: relative;
+        }
+        
+        .panel-header {
+            font-family: var(--font-head);
+            color: var(--primary-cyan);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            padding-bottom: 10px;
+        }
+
+        /* THREAT FEED */
+        .threat-feed {
+            height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .log-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .log-entry:hover {
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        .severity-high { color: var(--alert-red); border-left: 3px solid var(--alert-red); }
+        .severity-med { color: var(--warning-orange); border-left: 3px solid var(--warning-orange); }
+        .severity-low { color: var(--primary-green); border-left: 3px solid var(--primary-green); }
+
+        /* TERMINAL */
+        .terminal-window {
+            font-family: 'Courier New', Courier, monospace;
+            padding: 15px;
+            height: 100%;
+            min-height: 300px;
+            color: var(--primary-green);
+            overflow-y: auto;
+            background: rgba(0,0,0,0.8);
+        }
+
+        .cmd-line { margin-bottom: 5px; }
+        .cursor { animation: blink 1s infinite; }
+
+        /* THREAT MAP CONTAINER */
+        #globe-container {
+            width: 100%;
+            height: 400px;
+            position: relative;
+        }
+
+        /* AI ASSISTANT */
+        .ai-chat-bubble {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            width: 350px;
+            height: 450px;
+            display: none; /* Toggled */
+            flex-direction: column;
+            z-index: 6000;
+            padding: 15px;
+        }
+
+        .ai-toggle {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
+            background: var(--primary-cyan);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: var(--neon-shadow-cyan);
+            z-index: 6001;
+            transition: all 0.3s;
+        }
+        
+        .ai-toggle:hover { transform: scale(1.1); }
+        .ai-toggle i { font-size: 24px; color: #000; }
+
+        .chat-body {
+            flex: 1;
+            overflow-y: auto;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .msg {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .msg-ai { background: rgba(0, 243, 255, 0.2); border-left: 2px solid var(--primary-cyan); align-self: flex-start;}
+        .msg-user { background: rgba(255, 255, 255, 0.1); text-align: right; }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input input {
+            flex: 1;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--primary-cyan);
+            color: #fff;
+            padding: 5px 10px;
+            font-family: var(--font-body);
+        }
+
+        /* AUDIO CONTROLS */
+        .audio-controls {
+            position: fixed;
+            bottom: 30px; left: 30px;
+            z-index: 6000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            width: 40px; height: 40px;
+            border: 1px solid var(--primary-green);
+            background: rgba(0,0,0,0.8);
+            color: var(--primary-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        /* FILE ANALYZER */
+        .drop-zone {
+            border: 2px dashed var(--primary-cyan);
+            padding: 30px;
+            text-align: center;
+            color: var(--primary-cyan);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .drop-zone:hover { background: rgba(0, 243, 255, 0.1); }
+
+        /* ANIMATIONS */
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 42, 42, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0); } }
+
+        .pulse-btn { animation: pulse-red 2s infinite; }
+
+        /* Glitch Text */
+        .glitch-wrapper { position: relative; display: inline-block; }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .glitch::before {
+            left: 2px; text-shadow: -1px 0 red; clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px; text-shadow: -1px 0 blue; clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim {
+            0% { clip: rect(13px, 9999px, 81px, 0); }
+            20% { clip: rect(98px, 9999px, 12px, 0); }
+            40% { clip: rect(23px, 9999px, 55px, 0); }
+            60% { clip: rect(66px, 9999px, 11px, 0); }
+            80% { clip: rect(4px, 9999px, 93px, 0); }
+            100% { clip: rect(54px, 9999px, 36px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(65px, 9999px, 92px, 0); }
+            20% { clip: rect(4px, 9999px, 12px, 0); }
+            40% { clip: rect(23px, 9999px, 66px, 0); }
+            60% { clip: rect(86px, 9999px, 2px, 0); }
+            80% { clip: rect(14px, 9999px, 43px, 0); }
+            100% { clip: rect(34px, 9999px, 76px, 0); }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #555;
+            font-size: 12px;
+            border-top: 1px solid #333;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SCANLINES OVERLAY -->
+    <div class="scanlines"></div>
+
+    <!-- LOADER SCREEN -->
+    <div id="loader">
+        <canvas id="matrix-canvas"></canvas>
+        <div class="boot-sequence" id="boot-log">
+            <p>> INITIALIZING KERNEL...</p>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+    </div>
+
+    <!-- AUDIO ELEMENTS (Hidden) -->
+    <!-- Using placeholder sounds for demo -->
+    <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_0a8bcf8d4b.mp3?filename=cyberpunk-city-110278.mp3" type="audio/mp3">
+    </audio>
+    <audio id="sfx-alert">
+        <source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_12b0c7443c.mp3?filename=alarm-99039.mp3" type="audio/mp3">
+    </audio>
+    <audio id="sfx-type">
+        <source src="https://cdn.pixabay.com/download/audio/2021/08/09/audio_243532876b.mp3?filename=keyboard-typing-102947.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">
+            <i class="fas fa-shield-alt fa-spin" style="animation-duration: 3s;"></i>
+            <span class="glitch-wrapper"><span class="glitch" data-text="NEXUS_AI">NEXUS_AI</span></span>
+        </div>
+        <div class="nav-right">
+            <div class="clock" id="live-clock">00:00:00</div>
+            <div class="notification-bell" onclick="toggleAudio()">
+                <i class="fas fa-volume-up" id="vol-icon"></i>
+            </div>
+            <div class="notification-bell">
+                <i class="fas fa-bell"></i>
+                <span class="badge">3</span>
+            </div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Admin+AI&background=00ff41&color=000" alt="User" style="width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--primary-cyan);">
+            </div>
+            <div class="hamburger" style="display: none;">
+                <i class="fas fa-bars fa-2x" style="color: var(--primary-green);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="glass-panel col-span-12 hero-header" data-aos="fade-down">
+            <div class="hero-title">
+                <h1 class="neon-text-green">Threat Intelligence <span style="color:white">Dashboard</span></h1>
+                <p id="typing-text">System Active. Monitoring Global Traffic...</p>
+            </div>
+            <div style="display: flex; gap: 15px;">
+                <button class="btn-cyber" onclick="runFullScan()">Run Full Scan</button>
+                <button class="btn-cyber pulse-btn" style="border-color: var(--alert-red); color: var(--alert-red);" onclick="simulateAlert()">SIMULATE ATTACK</button>
+            </div>
+        </section>
+
+        <!-- STATS ROW 1 -->
+        <section class="col-span-12 stats-grid">
+            <div class="glass-panel stat-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-header"><span>Total Threats</span> <i class="fas fa-bug"></i></div>
+                <div class="stat-value neon-text-red" id="stat-threats">0</div>
+                <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> +12% vs last hour</div>
+            </div>
+            <div class="glass-panel stat-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-header"><span>Blocked Requests</span> <i class="fas fa-ban"></i></div>
+                <div class="stat-value neon-text-cyan" id="stat-blocked">0</div>
+                <div class="stat-trend trend-down"><i class="fas fa-check"></i> 99.9% Success</div>
+            </div>
+            <div class="glass-panel stat-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-header"><span>Security Score</span> <i class="fas fa-shield-virus"></i></div>
+                <div class="stat-value neon-text-green" id="stat-score">A+</div>
+                <div class="stat-trend" style="color: var(--primary-green)">Optimal Status</div>
+            </div>
+            <div class="glass-panel stat-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-header"><span>AI Confidence</span> <i class="fas fa-brain"></i></div>
+                <div class="stat-value" style="color: var(--warning-orange)" id="stat-ai">98.4%</div>
+                <div class="stat-trend">Model v4.2 Active</div>
+            </div>
+        </section>
+
+        <!-- MAIN CONTENT AREA -->
+        
+        <!-- CHARTS -->
+        <div class="glass-panel col-span-8 chart-container" data-aos="zoom-in">
+            <div class="panel-header">
+                <span><i class="fas fa-chart-area"></i> TRAFFIC ANALYSIS</span>
+                <select style="background: black; color: var(--primary-green); border: 1px solid var(--primary-green);">
+                    <option>Live</option>
+                    <option>24h</option>
+                    <option>7d</option>
+                </select>
+            </div>
+            <canvas id="trafficChart"></canvas>
+        </div>
+
+        <div class="glass-panel col-span-4 chart-container" data-aos="zoom-in">
+            <div class="panel-header">
+                <span><i class="fas fa-chart-pie"></i> THREAT TYPES</span>
+            </div>
+            <canvas id="threatTypeChart"></canvas>
+        </div>
+
+        <!-- LIVE FEED -->
+        <div class="glass-panel col-span-6" data-aos="flip-left">
+            <div class="panel-header">
+                <span><i class="fas fa-stream"></i> LIVE THREAT FEED</span>
+                <div>
+                    <button class="btn-cyber" style="padding: 2px 10px; font-size: 10px;" onclick="clearLogs()">CLEAR</button>
+                </div>
+            </div>
+            <div class="threat-feed" id="threat-log">
+                <!-- Logs injected via JS -->
+            </div>
+        </div>
+
+        <!-- TERMINAL -->
+        <div class="glass-panel col-span-6" data-aos="flip-right">
+            <div class="panel-header">
+                <span><i class="fas fa-terminal"></i> AI TERMINAL</span>
+            </div>
+            <div class="terminal-window" id="terminal-output">
+                <div class="cmd-line">root@nexus-core:~# init_system</div>
+                <div class="cmd-line">> Loading modules... [OK]</div>
+                <div class="cmd-line">> Connecting to global sensor grid... [OK]</div>
+                <div class="cmd-line">> Awaiting input...</div>
+                <br>
+            </div>
+            <input type="text" id="terminal-input" style="width: 100%; background: transparent; border: none; color: var(--primary-green); font-family: monospace; outline: none;" placeholder="Type command...">
+        </div>
+
+        <!-- THREAT MAP & INTEL -->
+        <div class="glass-panel col-span-8" data-aos="fade-up">
+            <div class="panel-header">
+                <span><i class="fas fa-globe-americas"></i> ACTIVE ATTACK VECTORS</span>
+                <span class="neon-text-red">LIVE TRACKING</span>
+            </div>
+            <div id="globe-container"></div>
+            <div style="padding: 10px; display: flex; justify-content: space-between; font-size: 12px; color: #888;">
+                <span>CN: 40%</span>
+                <span>RU: 25%</span>
+                <span>US: 15%</span>
+                <span>BR: 10%</span>
+                <span>OTHER: 10%</span>
+            </div>
+        </div>
+
+        <!-- SECURITY TOOLS PANEL -->
+        <div class="glass-panel col-span-4" style="padding: 20px;" data-aos="fade-up">
+            <div class="panel-header">
+                <span><i class="fas fa-tools"></i> QUICK TOOLS</span>
+            </div>
+            
+            <!-- Tabs -->
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <button class="btn-cyber" style="flex:1; font-size: 10px;" onclick="switchTool('file')">FILE SCAN</button>
+                <button class="btn-cyber" style="flex:1; font-size: 10px;" onclick="switchTool('pass')">PASS GEN</button>
+            </div>
+
+            <!-- File Analyzer -->
+            <div id="tool-file">
+                <div class="drop-zone" id="drop-area" ondrop="handleDrop(event)" ondragover="event.preventDefault()">
+                    <i class="fas fa-cloud-upload-alt fa-3x"></i><br>
+                    Drag & Drop Suspicious File
+                </div>
+                <div id="scan-result" style="margin-top: 15px; display: none;">
+                    <div style="font-size: 12px; color: #aaa;">Analysis Report:</div>
+                    <div class="neon-text-red" style="font-size: 18px;">THREAT DETECTED</div>
+                    <div style="font-size: 12px;">Trojan.Heur.Generic</div>
+                    <div style="width: 100%; background: #333; height: 5px; margin-top: 5px;">
+                        <div style="width: 100%; background: var(--alert-red); height: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Generator (Hidden by default) -->
+            <div id="tool-pass" style="display: none;">
+                <div style="margin-bottom: 10px;">
+                    <label style="font-size: 12px; color: #aaa;">Length</label>
+                    <input type="range" min="8" max="32" value="16" style="width: 100%;" id="pass-len">
+                </div>
+                <button class="btn-cyber" style="width: 100%;" onclick="generatePass()">GENERATE</button>
+                <div id="pass-output" style="margin-top: 15px; font-family: monospace; font-size: 18px; color: var(--primary-cyan); word-break: break-all;"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- AI CHAT ASSISTANT -->
+    <div class="ai-toggle" onclick="toggleAIChat()">
+        <i class="fas fa-robot"></i>
+    </div>
+    
+    <div class="glass-panel ai-chat-bubble" id="ai-panel">
+        <div class="panel-header">
+            <span><i class="fas fa-headset"></i> SECURITY ASSISTANT</span>
+            <i class="fas fa-times" style="cursor: pointer;" onclick="toggleAIChat()"></i>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <div class="msg msg-ai">Greetings, Admin. I am NEXUS AI. How can I assist with threat mitigation today?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="Ask about threats..." onkeypress="handleChat(event)">
+            <button class="btn-cyber" style="padding: 5px 10px;" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- AUDIO CONTROLS -->
+    <div class="audio-controls">
+        <div class="control-btn" title="Toggle Sound" onclick="toggleAudio()">
+            <i class="fas fa-volume-up" id="main-vol-icon"></i>
+        </div>
+    </div>
+
+    <footer>
+        <p>NEXUS CYBER SYSTEMS &copy; 2077. CLASSIFIED LEVEL 5 ACCESS. UNAUTHORIZED ACCESS WILL BE PROSECUTED.</p>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script>
+        /**
+         * NEXUS AI DASHBOARD CONTROLLER
+         * Integrated Logic for Visuals, Data, and Interaction
+         */
+
+        // --- GLOBAL VARIABLES ---
+        let audioEnabled = false;
+        let bgMusic = document.getElementById('bg-music');
+        let sfxAlert = document.getElementById('sfx-alert');
+        let sfxType = document.getElementById('sfx-type');
+        let threatCounter = 0;
+        let blockCounter = 0;
+        
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({ duration: 1000, once: true });
+            startBootSequence();
+            initClock();
+            initCharts();
+            initThreeJS();
+            startDataStreams();
+            initTerminal();
+            initTyped();
+        });
+
+        // --- LOADER & BOOT SEQUENCE ---
+        function startBootSequence() {
+            const log = document.getElementById('boot-log');
+            const bar = document.getElementById('progress-bar');
+            const loader = document.getElementById('loader');
+            const logs = [
+                "> LOADING KERNEL MODULES...",
+                "> MOUNTING FILE SYSTEMS...",
+                "> ESTABLISHING SECURE CONNECTION...",
+                "> BYPASSING FIREWALLS...",
+                "> DECRYPTING DATA STREAMS...",
+                "> LOADING AI NEURAL NETS...",
+                "> SYNCHRONIZING SATELLITES...",
+                "> SYSTEM READY."
+            ];
+
+            let step = 0;
+            const interval = setInterval(() => {
+                if (step < logs.length) {
+                    const p = document.createElement('p');
+                    p.textContent = logs[step];
+                    log.appendChild(p);
+                    log.scrollTop = log.scrollHeight;
+                    playTypeSound();
+                    bar.style.width = ((step + 1) / logs.length * 100) + '%';
+                    step++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        gsap.to(loader, { opacity: 0, duration: 1, onComplete: () => loader.style.display = 'none' });
+                        enableAudio(); // Attempt to unlock audio
+                    }, 500);
+                }
+            }, 300);
+        }
+
+        // --- CLOCK ---
+        function initClock() {
+            setInterval(() => {
+                const now = new Date();
+                document.getElementById('live-clock').innerText = now.toLocaleTimeString('en-GB');
+            }, 1000);
+        }
+
+        // --- TYPED.JS HERO ---
+        function initTyped() {
+            new Typed('#typing-text', {
+                strings: [
+                    'System Active. Monitoring Global Traffic...',
+                    'Analyzing Packets for Anomalies...',
+                    'AI Neural Networks Online...',
+                    'Threat Detection Accuracy: 99.9%'
+                ],
+                typeSpeed: 30,
+                backSpeed: 20,
+                loop: true,
+                backDelay: 2000
+            });
+        }
+
+        // --- AUDIO CONTROLS ---
+        function enableAudio() {
+            // Browsers require interaction to play audio. 
+            // We set the state, but actual play happens on first interaction usually.
+            // However, for a dashboard "Showcase", we toggle via button.
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            const icons = [document.getElementById('vol-icon'), document.getElementById('main-vol-icon')];
+            
+            if (audioEnabled) {
+                bgMusic.play().catch(e => console.log("Interaction needed first"));
+                bgMusic.volume = 0.3;
+                icons.forEach(i => {
+                    if(i) { i.classList.remove('fa-volume-mute'); i.classList.add('fa-volume-up'); }
+                });
+            } else {
+                bgMusic.pause();
+                icons.forEach(i => {
+                    if(i) { i.classList.remove('fa-volume-up'); i.classList.add('fa-volume-mute'); }
+                });
+            }
+        }
+
+        function playTypeSound() {
+            if (audioEnabled) {
+                sfxType.currentTime = 0;
+                sfxType.play().catch(()=>{});
+            }
+        }
+
+        function playAlertSound() {
+            if (audioEnabled) {
+                sfxAlert.currentTime = 0;
+                sfxAlert.play().catch(()=>{});
+            }
+        }
+
+        // --- MATRIX RAIN (LOADER) ---
+        (function() {
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const chars = '01XYZNEXUS';
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(1);
+
+            function drawMatrix() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#0f0';
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            const matrixInterval = setInterval(drawMatrix, 33);
+            
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        })();
+
+        // --- CHARTS CONFIG ---
+        let trafficChart, threatChart;
+
+        function initCharts() {
+            // Traffic Line Chart
+            const ctx1 = document.getElementById('trafficChart').getContext('2d');
+            const gradient = ctx1.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(0, 243, 255, 0.5)');
+            gradient.addColorStop(1, 'rgba(0, 243, 255, 0)');
+
+            trafficChart = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 20}, (_, i) => i),
+                    datasets: [{
+                        label: 'Network Traffic (GBps)',
+                        data: Array.from({length: 20}, () => Math.floor(Math.random() * 100) + 50),
+                        borderColor: '#00f3ff',
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { 
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            ticks: { color: '#888' }
+                        }
+                    },
+                    animation: { duration: 0 }
+                }
+            });
+
+            // Threat Doughnut Chart
+            const ctx2 = document.getElementById('threatTypeChart').getContext('2d');
+            threatChart = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['DDoS', 'Phishing', 'Malware', 'SQLi', 'XSS'],
+                    datasets: [{
+                        data: [35, 25, 20, 15, 5],
+                        backgroundColor: [
+                            '#ff2a2a', // Red
+                            '#ffae00', // Orange
+                            '#00f3ff', // Cyan
+                            '#00ff41', // Green
+                            '#bd00ff'  // Purple
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right', labels: { color: '#fff', font: { family: 'Rajdhani' } } }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        // --- THREE.JS GLOBE ---
+        function initThreeJS() {
+            const container = document.getElementById('globe-container');
+            const scene = new THREE.Scene();
+            // Transparent background
+            scene.background = null; 
+
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.z = 18;
+            camera.position.y = 5;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            // Particles for Globe
+            const geometry = new THREE.IcosahedronGeometry(6, 3);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0x004433, 
+                wireframe: true,
+                transparent: true,
+                opacity: 0.3
+            });
+            const globe = new THREE.Mesh(geometry, material);
+            scene.add(globe);
+
+            // Attack Points (Red Dots)
+            const particlesGeom = new THREE.BufferGeometry();
+            const particleCount = 40;
+            const posArray = new Float32Array(particleCount * 3);
+            for(let i=0; i<particleCount*3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 14;
+            }
+            particlesGeom.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMat = new THREE.PointsMaterial({
+                size: 0.2,
+                color: 0xff2a2a,
+                transparent: true,
+                opacity: 0.8
+            });
+            const attackPoints = new THREE.Points(particlesGeom, particlesMat);
+            globe.add(attackPoints);
+
+            // Animation Loop
+            function animate() {
+                requestAnimationFrame(animate);
+                globe.rotation.y += 0.003;
+                attackPoints.rotation.y -= 0.005; // Counter rotate slightly
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Resize Handle
+            window.addEventListener('resize', () => {
+                // Update only if container size changed significantly to save performance
+                if(container.clientWidth > 0 && container.clientHeight > 0) {
+                    camera.aspect = container.clientWidth / container.clientHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(container.clientWidth, container.clientHeight);
+                }
+            });
+        }
+
+        // --- DATA STREAMS & LOGS ---
+        const ipList = ['192.168.0.1', '10.0.0.5', '172.16.0.23', '45.22.19.11', '89.12.44.21'];
+        const attacks = ['DDoS Attack', 'SQL Injection', 'Brute Force', 'XSS Attempt', 'Malware Upload', 'Port Scan'];
+        const countries = ['CN', 'RU', 'US', 'KP', 'BR', 'DE'];
+
+        function startDataStreams() {
+            // Update Chart
+            setInterval(() => {
+                const data = trafficChart.data.datasets[0].data;
+                data.shift();
+                data.push(Math.floor(Math.random() * 100) + 50);
+                trafficChart.update();
+
+                // Update Counters
+                threatCounter += Math.floor(Math.random() * 3);
+                blockCounter += Math.floor(Math.random() * 5);
+                document.getElementById('stat-threats').innerText = threatCounter;
+                document.getElementById('stat-blocked').innerText = blockCounter;
+            }, 2000);
+
+            // Add Log
+            setInterval(() => {
+                addLogEntry();
+            }, 3500);
+        }
+
+        function addLogEntry(forcedSeverity = null) {
+            const feed = document.getElementById('threat-log');
+            const entry = document.createElement('div');
+            
+            const isCritical = forcedSeverity === 'high' || Math.random() > 0.8;
+            const severityClass = isCritical ? 'severity-high' : (Math.random() > 0.5 ? 'severity-med' : 'severity-low');
+            const type = attacks[Math.floor(Math.random() * attacks.length)];
+            const ip = ipList[Math.floor(Math.random() * ipList.length)];
+            const country = countries[Math.floor(Math.random() * countries.length)];
+            
+            entry.className = `log-entry ${severityClass}`;
+            entry.innerHTML = `
+                <div><i class="fas fa-exclamation-triangle"></i> ${type}</div>
+                <div>${ip} (${country})</div>
+                <div style="font-family: monospace;">${new Date().toLocaleTimeString()}</div>
+            `;
+            
+            feed.insertBefore(entry, feed.firstChild);
+            if (feed.children.length > 20) feed.removeChild(feed.lastChild);
+
+            if (isCritical) {
+                playAlertSound();
+            }
+        }
+
+        function clearLogs() {
+            document.getElementById('threat-log').innerHTML = '';
+        }
+
+        function simulateAlert() {
+            playAlertSound();
+            for(let i=0; i<3; i++) {
+                setTimeout(() => addLogEntry('high'), i * 200);
+            }
+            // Glitch effect on body
+            document.body.style.filter = "invert(1)";
+            setTimeout(() => document.body.style.filter = "invert(0)", 100);
+        }
+
+        function runFullScan() {
+            const terminal = document.getElementById('terminal-output');
+            const scanId = Math.random().toString(36).substr(2, 9).toUpperCase();
+            
+            const messages = [
+                `root@nexus:~# nmap -sV -sC --script vuln scan_target_${scanId}`,
+                `Starting Nmap 7.92 ( https://nmap.org )`,
+                `Scanning target...`,
+                `Discovered open port 80/tcp on target`,
+                `Discovered open port 443/tcp on target`,
+                `[!] VULNERABILITY FOUND: CVE-2023-XXXX`,
+                `[+] Scanning complete. 3 threats neutralized.`
+            ];
+
+            let i = 0;
+            const interval = setInterval(() => {
+                if(i < messages.length) {
+                    const div = document.createElement('div');
+                    div.className = 'cmd-line';
+                    div.textContent = messages[i];
+                    terminal.appendChild(div);
+                    terminal.scrollTop = terminal.scrollHeight;
+                    playTypeSound();
+                    i++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 600);
+        }
+
+        // --- TERMINAL ---
+        function initTerminal() {
+            const input = document.getElementById('terminal-input');
+            const output = document.getElementById('terminal-output');
+
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const cmd = input.value.trim().toLowerCase();
+                    const div = document.createElement('div');
+                    div.className = 'cmd-line';
+                    div.innerHTML = `root@nexus:~# ${input.value}`;
+                    output.appendChild(div);
+
+                    // Simple command parsing
+                    let response = '';
+                    if (cmd === 'help') response = "Available commands: scan, status, clear, help, date";
+                    else if (cmd === 'status') response = "SYSTEM STATUS: GREEN. ALL MODULES OPERATIONAL.";
+                    else if (cmd === 'clear') { output.innerHTML = ''; response = ''; }
+                    else if (cmd === 'date') response = new Date().toString();
+                    else if (cmd === 'scan') { runFullScan(); response = ''; }
+                    else if (cmd !== '') response = `Command not found: ${cmd}`;
+
+                    if (response) {
+                        const respDiv = document.createElement('div');
+                        respDiv.className = 'cmd-line';
+                        respDiv.style.color = '#fff';
+                        respDiv.textContent = response;
+                        output.appendChild(respDiv);
+                    }
+
+                    input.value = '';
+                    output.scrollTop = output.scrollHeight;
+                }
+            });
+        }
+
+        // --- AI ASSISTANT ---
+        function toggleAIChat() {
+            const panel = document.getElementById('ai-panel');
+            panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function handleChat(e) {
+            if (e.key === 'Enter') sendChat();
+        }
+
+        function sendChat() {
+            const input = document.getElementById('chat-input');
+            const body = document.getElementById('chat-body');
+            const txt = input.value.trim();
+            if (!txt) return;
+
+            // User Msg
+            const uMsg = document.createElement('div');
+            uMsg.className = 'msg msg-user';
+            uMsg.textContent = txt;
+            body.appendChild(uMsg);
+            
+            input.value = '';
+            body.scrollTop = body.scrollHeight;
+
+            // AI Response Logic
+            setTimeout(() => {
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'msg msg-ai';
+                let response = "I am processing your request. Please hold.";
+                
+                if(txt.includes('threat')) response = "I have detected 3 active anomalies originating from the Eastern Hemisphere.";
+                else if(txt.includes('status')) response = "All security protocols are active. Firewall integrity at 100%.";
+                else if(txt.includes('password')) response = "I recommend using a 16-character alphanumeric hash with special symbols.";
+                else if(txt.includes('scan')) response = "Initiating background heuristic scan...";
+                else response = "Command recognized. I am analyzing the database for relevant context.";
+
+                aiMsg.textContent = response;
+                body.appendChild(aiMsg);
+                body.scrollTop = body.scrollHeight;
+            }, 800);
+        }
+
+        // --- TOOLS PANEL ---
+        function switchTool(tool) {
+            document.getElementById('tool-file').style.display = tool === 'file' ? 'block' : 'none';
+            document.getElementById('tool-pass').style.display = tool === 'pass' ? 'block' : 'none';
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('scan-result').style.display = 'block';
+            document.getElementById('scan-result').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing Heuristics...';
+            
+            setTimeout(() => {
+                document.getElementById('scan-result').innerHTML = `
+                    <div style="font-size: 12px; color: #aaa;">Analysis Report:</div>
+                    <div class="neon-text-red" style="font-size: 18px;">THREAT DETECTED</div>
+                    <div style="font-size: 12px;">Trojan.Heur.Generic.kl</div>
+                    <div style="width: 100%; background: #333; height: 5px; margin-top: 5px;">
+                        <div style="width: 100%; background: var(--alert-red); height: 100%;"></div>
+                    </div>
+                    <button class="btn-cyber" style="margin-top: 10px; font-size: 10px; padding: 5px;">QUARANTINE</button>
+                `;
+                playAlertSound();
+            }, 2000);
+        }
+
+        function generatePass() {
+            const len = document.getElementById('pass-len').value;
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+            let pass = "";
+            for(let i=0; i<len; i++) {
+                pass += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('pass-output').textContent = pass;
+        }
+
+    </script>
+</body>
+</html>
