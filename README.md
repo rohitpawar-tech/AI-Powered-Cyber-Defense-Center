@@ -7,6 +7,11 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
 
 **Output Example**
 
+
+## 🚨 Incident Command Center
+
+Military-grade response dashboard.
+
 Animated trust graph with access decisions.
 
 ---
