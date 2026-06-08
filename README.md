@@ -34,3 +34,9 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
 *   **User Control:** Mute/Unmute functionality with volume control.
 
 ---
+
+## 🚀 Getting Started
+
+### Prerequisites
+*   A modern web browser (Chrome, Firefox, Edge, Safari).
+*   An active internet connection (to load CDNs for libraries and fonts).
