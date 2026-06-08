@@ -7,6 +7,34 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
 
 **Output Example**
 
+Animated trust graph with access decisions.
+
+---
+
+## 🦠 AI Malware Sandbox
+
+Upload a file and show:
+
+```text
+Behavior Analysis
+├── Registry Changes
+├── Network Calls
+├── Suspicious Processes
+└── Threat Score: 87%
+```
+
+Include animated execution simulation.
+
+---
+
+## 🌐 Dark Web Intelligence Monitor
+
+**Dashboard Cards**
+
+* Leaked credentials detected
+* Stolen data mentions
+* Brand monitoring
+* Threat actor discussions
 
 * Satellite network status
 * GPS spoofing alerts
