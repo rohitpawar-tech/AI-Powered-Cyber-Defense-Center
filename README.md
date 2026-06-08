@@ -6,6 +6,18 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
 ![NEXUS Dashboard](https://img.shields.io/badge/Status-Operational-green) ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 
 ---
+
+## 🔥 AI Threat Prediction Engine
+
+Instead of only showing current attacks, predict future threats using AI.
+
+**Features:**
+
+* Attack probability score
+* Predicted attack type (DDoS, Ransomware, Phishing)
+* Risk trend forecasting
+* AI confidence visualization
+
 ## 🌟 Features
 
 ### Visual & UX
