@@ -27,3 +27,10 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
 *   **File Analyzer:** Drag-and-drop zone with fake malware scanning simulation.
 *   **Password Generator:** Secure password generation tool with entropy control.
 *   **Simulation Controls:** "Simulate Attack" button to trigger visual and audio alerts.
+
+### Audio System
+*   **Immersive Sound:** Ambient cyberpunk background music.
+*   **SFX:** Keyboard typing sounds and critical alert sirens.
+*   **User Control:** Mute/Unmute functionality with volume control.
+
+---
