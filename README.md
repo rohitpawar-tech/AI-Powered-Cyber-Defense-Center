@@ -20,3 +20,10 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
 *   **Threat Distribution:** Interactive Doughnut Chart visualizing attack vectors (DDoS, SQLi, Malware, etc.).
 *   **Live Threat Feed:** Auto-scrolling log simulation with severity highlighting (Critical, Medium, Low).
 *   **3D Threat Map:** Interactive globe (Three.js) visualizing global attack origins.
+
+### Interactive Tools
+*   **AI Terminal:** Command-line interface. Try commands like `help`, `scan`, `status`, or `clear`.
+*   **AI Assistant:** Floating chatbot simulation that responds to threat queries.
+*   **File Analyzer:** Drag-and-drop zone with fake malware scanning simulation.
+*   **Password Generator:** Secure password generation tool with entropy control.
+*   **Simulation Controls:** "Simulate Attack" button to trigger visual and audio alerts.
