@@ -8,6 +8,16 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
 **Output Example**
 ### Phases
 
+Progress tracker:
+
+```text
+Containment ████████░░ 80%
+Recovery    ████░░░░░░ 40%
+```
+
+---
+
+
 1. Detection
 2. Analysis
 3. Containment
