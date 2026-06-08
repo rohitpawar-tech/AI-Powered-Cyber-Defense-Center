@@ -11,6 +11,29 @@ Animated trust graph with access decisions.
 
 ---
 
+
+```text
+Dark Web Alerts: 7
+Critical Mentions: 2
+Leaked Emails: 15
+```
+
+---
+
+## 📡 Live Network Topology Map
+
+Interactive node graph:
+
+```text
+Firewall
+   │
+   ├── Server A
+   ├── Server B
+   ├── Database
+   └── IoT Devices
+```
+
+
 ## 🦠 AI Malware Sandbox
 
 Upload a file and show:
