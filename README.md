@@ -13,3 +13,10 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
 *   **Boot Sequence:** Cinematic Matrix rain animation and system initialization loader.
 *   **Responsive Design:** Fully adaptive layout for Desktop, Tablet, and Mobile.
 *   **Advanced Animations:** GSAP transitions, AOS scroll reveals, and glitch text effects.
+
+### Dashboard Components
+*   **Live Metrics:** Animated counters for Total Threats, Blocked Requests, Security Score, and AI Confidence.
+*   **Traffic Analytics:** Real-time Line Chart using Chart.js.
+*   **Threat Distribution:** Interactive Doughnut Chart visualizing attack vectors (DDoS, SQLi, Malware, etc.).
+*   **Live Threat Feed:** Auto-scrolling log simulation with severity highlighting (Critical, Medium, Low).
+*   **3D Threat Map:** Interactive globe (Three.js) visualizing global attack origins.
