@@ -67,3 +67,14 @@ The terminal is located in the bottom right panel. It supports the following com
 *   `status` : Checks system health.
 *   `clear` : Clears the terminal history.
 *   `date` : Displays the current timestamp.
+
+
+### 4. AI Assistant
+Click the **Robot Icon** in the bottom right corner to open the AI chat window.
+*   Ask about "threats", "status", or "passwords" to see simulated AI responses.
+
+### 5. Tools
+*   **File Scan:** Drag any file into the "Drag & Drop" zone to see a simulated heuristic analysis.
+*   **Password Gen:** Click "PASS GEN" to generate strong passwords based on the slider length.
+
+---
