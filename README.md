@@ -96,3 +96,19 @@ Click the **Robot Icon** in the bottom right corner to open the AI chat window.
 | **Google Fonts** | Orbitron, Rajdhani, Audiowide |
 
 ---
+
+## 📝 Project Structure
+
+The entire application is contained within a single HTML file:
+```
+index.html
+├── <head>
+│   ├── Meta Tags & CDNs
+│   └── Internal CSS (<style>)
+└── <body>
+    ├── Overlays (Scanlines, Loader)
+    ├── UI Components (Navbar, Grid, Panels)
+    └── Internal JavaScript (<script>)
+```
+
+---
