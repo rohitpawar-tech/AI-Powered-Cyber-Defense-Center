@@ -35,6 +35,16 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
 
 ---
 
+### Installation
+
+1.  Clone or download the repository.
+2.  Locate the HTML file (e.g., `index.html`).
+3.  Open the file in your web browser.
+
+**That's it!** No build process or server required.
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
