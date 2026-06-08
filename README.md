@@ -112,3 +112,19 @@ index.html
 ```
 
 ---
+
+
+## 📄 License
+
+This project is created for educational and portfolio demonstration purposes.
+
+---
+
+## 👨‍💻 Author
+
+**NEXUS AI Systems**  
+*Front-End Engineering Simulation*
+
+**Note:** This is a UI/UX demonstration. The data, threats, and analysis results are simulated for visual effect and do not interact with real network traffic.
+
+```
