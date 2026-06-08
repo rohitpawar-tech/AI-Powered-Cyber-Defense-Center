@@ -5,6 +5,31 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
 
 ![NEXUS Dashboard](https://img.shields.io/badge/Status-Operational-green) ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 
+```text
+[10:32] Reconnaissance
+↓
+[10:45] Port Scan
+↓
+[10:52] Credential Attack
+↓
+[11:03] Malware Deployment
+```
+
+---
+
+## 🤖 AI Security Analyst
+
+Upgrade the chatbot into a real SOC analyst.
+
+**Commands**
+
+```bash
+investigate 192.168.1.5
+threat-report
+ioc-search
+recommend-fix
+```
+
 ---
 ```text
 Next 24 Hours Risk Forecast
