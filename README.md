@@ -50,3 +50,20 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
 ### Prerequisites
 *   A modern web browser (Chrome, Firefox, Edge, Safari).
 *   An active internet connection (to load CDNs for libraries and fonts).
+
+## 📖 Usage Guide
+
+### 1. Initial Boot
+Upon loading, you will see a Matrix-style boot sequence. Wait for the progress bar to reach 100% to unlock the dashboard.
+
+### 2. Audio Activation
+Due to browser autoplay policies, audio is muted by default.
+*   Click the **Volume Icon** in the bottom left corner or the navbar to enable the Ambient Cyberpunk music and Sound Effects.
+
+### 3. Using the Terminal
+The terminal is located in the bottom right panel. It supports the following commands:
+*   `help` : Lists available commands.
+*   `scan` : Initiates a fake network vulnerability scan.
+*   `status` : Checks system health.
+*   `clear` : Clears the terminal history.
+*   `date` : Displays the current timestamp.
