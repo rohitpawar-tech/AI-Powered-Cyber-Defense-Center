@@ -78,3 +78,21 @@ Click the **Robot Icon** in the bottom right corner to open the AI chat window.
 *   **Password Gen:** Click "PASS GEN" to generate strong passwords based on the slider length.
 
 ---
+
+
+## 🛠 Technology Stack
+
+| Technology | Usage |
+| :--- | :--- |
+| **HTML5** | Structure & Semantics |
+| **CSS3** | Styling, Animations, Glassmorphism |
+| **JavaScript (ES6)** | Logic, DOM Manipulation |
+| **Three.js** | 3D Globe Visualization |
+| **Chart.js** | Real-time Data Charts |
+| **GSAP** | High-performance Animations |
+| **AOS** | Scroll Animations |
+| **Typed.js** | Typewriter Text Effect |
+| **Font Awesome** | Iconography |
+| **Google Fonts** | Orbitron, Rajdhani, Audiowide |
+
+---
