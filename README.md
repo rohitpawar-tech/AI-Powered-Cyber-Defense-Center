@@ -165,7 +165,7 @@ Visual heatmap showing active tactics.
 
 ---
 
-## 🤖 AI Security Analyst
+## 🤖 AI Security Analyst 
 
 Upgrade the chatbot into a real SOC analyst.
 
