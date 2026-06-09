@@ -123,7 +123,6 @@ Military-style visualization.
 ![Image](https://images.openai.com/static-rsc-4/zVUCw-MPLjYt7qkY7tZruQM9xlvtd-mghDiZ9ts-XJa_YEIjcU_LKmZGy3gqHK0kYfFCfGCXnwNdAFS71rFfyG92uDBhk0YkmFzSQTEFlbFq1dswStvvDn76EigXUYwi_wB-ip0VcQYhoHEzKeJxvM6wUQsyuYT9P99PTgOCS3vXfMLi1r6xc5q2LK_aEF6F?purpose=fullsize)
 
 ![Image](https://images.openai.com/static-rsc-4/MQ5xZ-oDjfS--OBiLumrxH0turOGxD2RaJfjXGwl_noDqZ1NmGoXWxLuQPocGAMnZ0pHSxTln4bInxm1M-XeBHUMTtLnMtQw2vmsZSnLYYhC6Cp95EzeFCTaNmAzK8a1Xg2Pf5Kbw5zp033hoHZgGwzaoVSgvPVeQNmfPVq-zX4o0IQpQyl7ZXzBt-NTQLHt?purpose=fullsize)
-
 **Features**
 
 ```text
