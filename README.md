@@ -319,7 +319,7 @@ index.html
 --- 
  
  
-## 📄 License
+## 📄 License 
 
 This project is created for educational and portfolio demonstration purposes.
 
