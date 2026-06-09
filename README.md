@@ -209,7 +209,7 @@ Instead of only showing current attacks, predict future threats using AI.
 * Attack probability score
 * Predicted attack type (DDoS, Ransomware, Phishing)
 * Risk trend forecasting
-* AI confidence visualization
+* AI confidence visualization 
 
 ## 🌟 Features
 
