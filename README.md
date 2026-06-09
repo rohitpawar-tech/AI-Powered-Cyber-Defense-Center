@@ -9,7 +9,7 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
 ### Phases  
 
 Progress tracker:
-
+ 
 ```text
 Containment ████████░░ 80%
 Recovery    ████░░░░░░ 40%
