@@ -12,7 +12,7 @@ Progress tracker:
  
 ```text 
 Containment ████████░░ 80%
-Recovery    ████░░░░░░ 40%
+Recovery    ████░░░░░░ 40% 
 ```
 
 ---
