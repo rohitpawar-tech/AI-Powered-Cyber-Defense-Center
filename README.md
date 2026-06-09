@@ -7,7 +7,7 @@ A production-grade, single-file Front-End simulation of a Military-Grade Securit
    
 **Output Example** 
 ### Phases   
- 
+  
 Progress tracker: 
  
 ```text  
