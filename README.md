@@ -176,7 +176,6 @@ threat-report
 ioc-search
 recommend-fix
 ```
-
 ---
 ```text
 Next 24 Hours Risk Forecast
