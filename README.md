@@ -57,7 +57,7 @@ Firewall
    │
    ├── Server A
    ├── Server B
-   ├── Database
+   ├── Database 
    └── IoT Devices
 ```
 
