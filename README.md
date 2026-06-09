@@ -1,5 +1,5 @@
 # AI-Powered-Cyber-Defense-Center 
-AegisAI is a modern AI-powered Cyber Threat Monitoring Dashboard designed to simulate a Security Operations Center (SOC) environment.  The platform provides real-time threat visualization, attack monitoring, threat intelligence analysis, incident response tracking, phishing detection, malware 
+AegisAI is a modern AI-powered Cyber Threat Monitoring Dashboard designed to simulate a Security Operations Center (SOC) environment.  The platform provides real-time threat visualization, attack monitoring, threat intelligence analysis, incident response tracking, phishing detection, malware
 # NEXUS | AI Cyber Threat Monitoring Dashboard  
 A production-grade, single-file Front-End simulation of a Military-Grade Security Operations Center (SOC) . Built with a futuristic Cyberpunk aesthetic, this dashboard features real-time data visualization, 3D threat mapping, an interactive AI terminal, and simulated security analysis tools.        
  
