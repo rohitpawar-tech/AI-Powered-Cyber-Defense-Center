@@ -204,7 +204,7 @@ Create a playback system showing attack history.
 
 Instead of only showing current attacks, predict future threats using AI.
 
-**Features:**
+**Features:** 
 
 * Attack probability score
 * Predicted attack type (DDoS, Ransomware, Phishing)
