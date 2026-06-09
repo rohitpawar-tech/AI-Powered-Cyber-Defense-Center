@@ -87,7 +87,7 @@ Include animated execution simulation.
 * Brand monitoring
 * Threat actor discussions
 
-* Satellite network status
+* Satellite network status 
 * GPS spoofing alerts
 * Global communication monitoring
 * Space cyber threats
