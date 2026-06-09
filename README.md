@@ -326,7 +326,7 @@ This project is created for educational and portfolio demonstration purposes.
 ---
 
 ## 👨‍💻 Author
-
+ 
 **NEXUS AI Systems**  
 *Front-End Engineering Simulation*
 
