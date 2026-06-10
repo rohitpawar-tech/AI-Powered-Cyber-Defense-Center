@@ -21,7 +21,7 @@ Recovery    ████░░░░░░ 40%
 1. Detection
 2. Analysis
 3. Containment
-4. Eradication
+4. Eradication 
 5. Recovery
 6. Lessons Learned
 
