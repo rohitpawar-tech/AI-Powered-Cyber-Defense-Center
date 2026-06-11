@@ -1132,7 +1132,7 @@
 
                     // Simple command parsing
                     let response = '';
-                    if (cmd === 'help') response = "Available commands: scan, status, clear, help, date";
+                    if (cmd === 'help') response =  "Available commands: scan, status, clear, help, date";
                     else if (cmd === 'status') response = "SYSTEM STATUS: GREEN. ALL MODULES OPERATIONAL.";
                     else if (cmd === 'clear') { output.innerHTML = ''; response = ''; }
                     else if (cmd === 'date') response = new Date().toString();
