@@ -126,7 +126,7 @@ Military-style visualization.
 **Features**
 
 ```text
-Threat Summary:
+Threat  Summary:
 • Source: Russia
 • Risk: Critical
 • MITRE Technique: T1059
